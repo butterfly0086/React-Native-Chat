@@ -274,6 +274,10 @@ export type MessagesContextValue<
    */
   additionalTouchableProps?: Omit<TouchableOpacityProps, 'style'>;
   /**
+   * When false, pop-out animation will be disabled for message bubble, onLongPress
+   */
+  animatedLongPress?: boolean;
+  /**
    * Full override of the block user button in the Message Actions
    *
    * Please check [cookbook](https://github.com/GetStream/stream-chat-react-native/wiki/Cookbook-v3.0#override-or-intercept-message-actions-edit-delete-reaction-reply-etc) for details.
@@ -449,7 +453,10 @@ export type MessagesContextValue<
    * onLongPressMessage should be used to cancel onPressInMessage timers
    * if required
    */
-  onLongPressMessage?: (event?: GestureResponderEvent) => void;
+  onLongPressMessage?: (
+    message: MessageType<At, Ch, Co, Ev, Me, Re, Us>,
+    event?: GestureResponderEvent,
+  ) => void;
   /**
    * Override for press on message attachments
    */

@@ -204,6 +204,7 @@ export type ChannelPropsWithContext<
     Pick<
       MessagesContextValue<At, Ch, Co, Ev, Me, Re, Us>,
       | 'additionalTouchableProps'
+      | 'animatedLongPress'
       | 'Attachment'
       | 'AttachmentActions'
       | 'FileAttachmentIcon'
@@ -373,6 +374,7 @@ const ChannelWithContext = <
   const {
     additionalKeyboardAvoidingViewProps,
     additionalTextInputProps,
+    animatedLongPress,
     additionalTouchableProps,
     allowThreadMessagesInChannel = true,
     AttachButton = AttachButtonDefault,
@@ -1436,6 +1438,7 @@ const ChannelWithContext = <
   const messagesContext = useCreateMessagesContext({
     ...messagesConfig,
     additionalTouchableProps,
+    animatedLongPress,
     Attachment,
     AttachmentActions,
     blockUser,

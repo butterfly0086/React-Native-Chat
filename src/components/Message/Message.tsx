@@ -962,6 +962,9 @@ const MessageWithContext = <
   const onLongPressMessage =
     disabled || hasAttachmentActions
       ? () => null
+      : onLongPressMessageProp
+      ? (event?: GestureResponderEvent) =>
+          onLongPressMessageProp(message, event)
       : onLongPressProp
       ? (event?: GestureResponderEvent) => onLongPressProp(message, event)
       : enableLongPress
@@ -1031,12 +1034,12 @@ const MessageWithContext = <
     onLongPress: animatedLongPress
       ? (event) => {
           if (onLongPressMessageProp) {
-            onLongPressMessageProp(event);
+            onLongPressMessageProp(message, event);
           }
         }
       : (event) => {
           if (onLongPressMessageProp) {
-            onLongPressMessageProp(event);
+            onLongPressMessageProp(message, event);
           }
           onLongPressMessage(event);
         },
