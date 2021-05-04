@@ -1,0 +1,159 @@
+---
+id: message_actions_customization
+sidebar_position: 4
+title: Customize Message Actions
+---
+
+Message actions pop up in message overlay, when you longpress a message. We have provided a granular control over these actions.
+
+`Channel` component accepts a prop called - `messageActions`. You can use this prop as a callback function to render message actions selectively. Array of actions returned by this function, will be rendered in message overlay (on long press).
+
+By default we render following message actions:
+
+- edit message
+- delete message
+- block user
+- reply
+- thread reply
+- copy message
+- flag message
+
+## Partially remove some message actions
+
+:::info
+
+This feature is available from `stream-chat-react-native@3.1.0`
+:::
+
+e.g., if you only want to keep "copy message" and "delete message", here is how you do it:
+
+  ```jsx
+  <Channel
+    messageActions={({
+      blockUser, // MessageAction | null;
+      canModifyMessage, // boolean;
+      copyMessage, // MessageAction | null;
+      deleteMessage, // MessageAction | null;
+      editMessage, // MessageAction | null;
+      error, // boolean;
+      flagMessage, // MessageAction | null;
+      isMyMessage, // boolean;
+      isThreadMessage, // boolean;
+      message, // MessageType<At, Ch, Co, Ev, Me, Re, Us>;
+      messageReactions, // boolean;
+      muteUser, // MessageAction | null;
+      reply, // MessageAction | null;
+      retry, // MessageAction | null;
+      threadReply, // MessageAction | null;
+      repliesEnabled?, // boolean;
+    }) => (
+      // You can also use `isMyMessage` boolean flag to decide which actions to render for
+      // sent messages vs received messages.
+      [
+        copyMessage,
+        deleteMessage
+      ]
+    )}
+  >
+    {/** MessageList and MessageInput component here */}
+  </Channel>
+  ```
+
+## Add a new custom message action
+
+E.g., let's suppose you want to introduce a new message action - "Pin Message"
+
+  ```jsx
+  <Channel
+    messageActions={({
+      message, // MessageType<At, Ch, Co, Ev, Me, Re, Us>;
+      copyMessage, // MessageAction | null
+    }) => (
+      [
+        copyMessage,
+        {
+          action: () => {
+            client.pinMessage(message);
+          };
+          title: "Pin Message";
+          icon: PinIcon; // Use some SVG icon here | Optional
+          titleStyle: { color: 'blue', fontSize: 13 }; // StyleProp<TextStyle> | Optional
+        }
+      ]
+    )}
+  >
+    {/** MessageList and MessageInput component here */}
+  </Channel>
+  ```
+## Override or intercept individual message action (edit, delete, reaction, reply, etc.)
+
+There are a number of message actions you may want to intercept or override. `Channel` takes as props and passes on to the `MessagesContext` all of these intercepts and overrides.
+
+**The intercepts will not change the standard functions but will be called during their calls if provided**. For actions such as analytics these are good to take advantage of. All of these intercept functions receive the message they are called on, and `handleReaction` additionally receives the reaction type.
+
+You can also override the built in functions for these actions if you so choose. With the exception of `selectReaction` all of the functions are provided the `message` they are called on and must return a `MessageAction` for use in the context menu. `selectReaction` is also provided the `message` but should return an async function that takes a `reactionType`. This is called with the selected reaction type when a reaction is selected in the context menu.
+
+```tsx
+type MessageAction = {
+  action: () => void;
+  title: string;
+  icon?: React.ReactElement;
+  titleStyle?: StyleProp<TextStyle>;
+};
+```
+
+`MessageAction` is provided to the context menu where when selected `action` is called for the item. `title`, `icon`, and `titleStyle` are used to modify the appearance.
+
+```tsx
+<Channel
+  channel={channel}
+  editMessage={(message) => ({
+    action: () => console.log(message.text),
+    icon: <StreamReaction />,
+    title: 'Custom Edit',
+    titleStyle: { color: '#005FFF' },
+  })}
+  keyboardVerticalOffset={headerHeight}
+  thread={thread}
+>
+```
+
+<table>
+  <tr>
+   <td width="33%">
+      <ul>
+        <li>handleBlock</li>
+        <li>handleCopy</li>
+        <li>handleDelete</li>
+        <li>handleEdit</li>
+        <li>handleFlag</li>
+        <li>handleMute</li>
+        <li>handleReaction</li>
+        <li>handleReply</li>
+        <li>handleRetry</li>
+        <li>handleThreadReply</li>
+      </ul>
+    </td>
+    <td  width="33%">
+      <ul>
+        <li>blockUser</li>
+        <li>copyMessage</li>
+        <li>deleteMessage</li>
+        <li>editMessage</li>
+        <li>flagMessage</li>
+        <li>muteUser</li>
+        <li>selectReaction</li>
+        <li>reply</li>
+        <li>retry</li>
+        <li>threadReply</li>
+      </ul>
+    </td>
+    <td align='center' width="33%"><img src='https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/cookbook/CustomEdit.png'/></td>
+  </tr>
+  <tr></tr>
+  <tr>
+    <td align='center'>Props for intercepting</td>
+    <td align='center'>Props for overriding</td>
+    <td align='center'>editMessage override example</td>
+  </tr>
+</table>

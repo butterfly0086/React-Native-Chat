@@ -1,0 +1,58 @@
+---
+id: message_input
+sidebar_position: 5
+title: Customize Message Input
+---
+
+## Changing MessageInput layout
+
+We provide the `MessageInput` container out of the box in a fixed configuration with many customizable features. Similar to other components it accesses most customizations via context, specially the `MessageInputContext` which is instantiated in `Channel`. You can also pass the same props as the context provides directly to the `MessageInput` component to override the context values.
+
+```tsx
+<Channel
+  channel={channel}
+  // Custom component for input
+  Input={() => <View style={{ height: 40, backgroundColor: 'red' }} />}
+  keyboardVerticalOffset={headerHeight}
+  Message={CustomMessageComponent}
+>
+  <View style={{ flex: 1 }}>
+    <MessageList />
+    <MessageInput />
+  </View>
+</Channel>
+```
+
+The code above would render the red `View` and not `null` as the props take precedence over the context value.
+
+You can modify `MessageInput` in a large variety of ways. The type definitions for the props give clear insight into all of the options. You can replace the `Input` wholesale, as above, or create you own `MessageInput` component using the provided hooks to access context.
+
+<table>
+  <tr>
+    <td align='center' width="33%"><img src='https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/cookbook/SendButton.png'/></td>
+    <td align='center' width="33%"><img src='https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/cookbook/HasPickers.png'/></td>
+    <td align='center' width="33%"><img src='https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/cookbook/NumberOfLines.png'/></td>
+  </tr>
+  <tr></tr>
+  <tr>
+    <td align='center'>Replace SendButton</td>
+    <td align='center'>hasFilePicker & hasImagePicker - false</td>
+    <td align='center'>numberOfLines={2}</td>
+  </tr>
+</table>
+
+**NOTE:** The `additionalTextInputProps` prop of both `Channel` and `MessageInput` is passed the the internal [`TextInput`](https://reactnative.dev/docs/textinput) component from `react-native`. If you want to change the `TextInput` component props directly this can be done using this prop.
+
+## Disable autocomplete feature on input (mentions and commands)
+
+The auto-complete trigger settings by default include `/`, `@`, and `:` for slash commands, mentions, and emojis respectively. These triggers are created by the exported function `ACITriggerSettings`, which takes `ACITriggerSettingsParams` and returns `TriggerSettings`. You can override this function to remove some or all of the trigger settings via the `autoCompleteTriggerSettings` prop on `Channel`. If you remove the slash commands it is suggested you also remove the commands button using the prop on `Channel` `hasCommands`. You can remove all of the commands by returning an empty object from the function given to `autoCompleteTriggerSettings`.
+
+```tsx
+<Channel
+  autoCompleteTriggerSettings={() => ({})}
+  channel={channel}
+  hasCommands={false}
+  keyboardVerticalOffset={headerHeight}
+  thread={thread}
+>
+```
