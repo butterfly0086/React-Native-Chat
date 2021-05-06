@@ -1,0 +1,234 @@
+---
+id: channel_list
+sidebar_position: 3
+title: ChannelList
+---
+
+This component fetches a list of channels, allowing you to select the channel you want to open. The ChannelList doesn't provide any UI for the underlying React Native's [FlatList](https://reactnative.dev/docs/flatlist). UI is determined by the List component which is provided to the ChannelList component as a prop. By default, the ChannelListMessenger component is used as the list UI.
+
+ChannelList component makes a call to `client.queryChannels(filters, sort, options)` endpoint, and uses `filters`, `sort` and `options` from props.
+
+## Example
+
+```jsx
+import React from 'react';
+import { Chat, ChannelList } from 'stream-chat-react-native';
+import { StreamChat } from 'stream-chat';
+
+const chatClient = StreamChat.getInstance('API_KEY');
+
+const sort = { last_message_at: -1 };
+const options = {
+  messages_limit: 30, // Number of messages per channel to render.
+  limit: 20, // Number of channels to render
+}
+
+const App = ({ userId, userToken }) => {
+  const [isReady, setIsReady] = useState(false);
+
+  const filters = useMemo(() => ({
+    type: 'messaging',
+    members: {
+      $in: [userId]
+    }
+  }), [userId])
+
+  useEffect(() => {
+    const init = async () => {
+      await chatClient.connectUser({ id: userId, userToken })
+
+      setIsReady(false);
+    }
+  }, [])
+
+  if (isReady) {
+    return null;
+  }
+
+  return (
+    <Chat client={chatClient}>
+      <ChannelList
+        filters={filters}
+        sort={sort}
+        options={options}
+      />
+    </Chat>
+  )
+}
+```
+
+## Customizable components
+
+![](https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/visualGuide/1.svg)
+![](https://raw.githubusercontent.com/GetStream/stream-chat-react-native/master/screenshots/visualGuide/2.svg)
+
+## Props
+
+### <div class="label required basic">Required</div> filters
+
+Filter object, used to query channels from Stream.
+
+See [Channels Query Docs](https://getstream.io/chat/docs/query_channels) for a list of available `filter` fields.
+
+e.g, 
+```js
+// Filter to query channels, which user 'vishal' and 'jaap' are members of.
+{
+  type: 'messaging',
+  members: {
+    $in: ['vishal', 'jaap']
+  }
+}
+```
+
+:::warning
+<!-- TODO: Change to new docs -->
+Avoid using inline objects as props. Please memoize the object before passing it to ChannelList component or use static reference to filters object.
+Please take a look at [best practices](#) guide for more details.
+:::
+
+
+| Type               |
+| ------------------ |
+| object             |
+
+### <div class="label recommended basic">Recommended</div> sort
+
+Filter object, used to query channels from Stream.
+
+See [Channels Query Docs](https://getstream.io/chat/docs/query_channels) for a list of available `sort` fields
+
+| Type               |
+| ------------------ |
+| object             |
+
+### <div class="label recommended basic">Recommended</div> options
+
+Filter object, used to query channels from Stream.
+
+See [Channels Query Docs](https://getstream.io/chat/docs/query_channels) for a list of available `sort` fields
+
+| Type               |
+| ------------------ |
+| object             |
+
+
+### EmptyStateIndicator
+
+Custom UI component for replacing default empty state indicator.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [EmptyStateIndicator](#) |
+
+### FooterLoadingIndicator
+
+Custom UI component for replacing default footer loading indicator, which appears when ChanneList is loding more channels when scrolled to bottom of the list.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [FooterLoadingIndicator](#) |
+
+### HeaderErrorIndicator
+
+Custom UI component for replacing default header error indicator, which appears when ChannelList failes to load more results.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [HeaderErrorIndicator](#) |
+
+### HeaderNetworkDownIndicator
+
+Custom UI component for replacing default network down indicator.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [HeaderNetworkDownIndicator](#) |
+
+### LoadingErrorIndicator
+
+Custom UI component for replacing default error indicator, which appears when ChannelList fails to fetch first set of channels.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [LoadingErrorIndicator](#) |
+
+### LoadingIndicator
+
+Custom UI component for replacing default loading indicator, which appears when ChannelList is loading first set of results
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [LoadingIndicator](#) |
+
+### ListHeaderComponent
+
+UI component to render as header for channel list.
+
+| Type               |
+| ------------------ |
+| Component, element |
+
+### Preview
+
+Custom UI component for replacing list item.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewMessenger](#) |
+
+
+### PreviewAvatar
+
+Custom UI component for replacing default avatar component, within list item.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewAvatar](#) |
+
+### PreviewMessage
+
+Custom UI component for replacing default latest message preview component, within list item
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewMessage](#) |
+
+### PreviewStatus
+
+Custom UI component for replacing default status component, within list item
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewStatus](#) |
+
+### PreviewTitle
+
+Custom UI component for replacing default channel title component, within list item
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewTitle](#) |
+
+### PreviewUnreadCount
+
+Custom UI component for replacing default unread count component, within list item
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [ChannelPreviewUnreadCount](#) |
+
+
+
