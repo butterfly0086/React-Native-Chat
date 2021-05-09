@@ -40,10 +40,331 @@ Please check the docs around how to create or query channel
 | ------------------ |
 | [Channel](#)       |
 
+## List Props
+
+### AttachButton
+
+Custom UI component for attach button.
+
+<!-- TODO: Change to new docs -->
+| Type               | Default      |
+| ------------------ | ------------ |
+| Component, element | [AttachButton](#) |
+
+
+### Attachment
+
+### AttachmentActions
+
+### FileAttachmentIcon
+
+### Card
+
+### CardCover
+
+### CardFooter
+
+### CardHeader
+
+### CommandsButton
+
+### DateHeader
+
 ### EmptyStateIndicator
 
-Custom UI component to display empty state when channel has no messages.
+### FileAttachment
 
-| Type               | Default             |
-| ------------------ | ------------------- |
-| component, element | [EmptyStateIndicator](https://github.com/GetStream/stream-chat-react-native/blob/master/src/components/Indicators/EmptyStateIndicator.tsx) |
+### FileAttachmentGroup
+
+### FileUploadPreview
+
+### FlatList
+
+### Gallery
+
+### Giphy
+
+### ImageUploadPreview
+
+### InlineDateSeparator
+
+### InlineUnreadIndicator
+
+### Input
+
+### InputButtons
+
+### KeyboardCompatibleView
+
+### LoadingErrorIndicator
+
+### LoadingIndicator
+
+### Message
+
+### MessageAvatar
+
+### MessageContent
+
+### MessageFooter
+
+### MessageHeader
+
+### MessageList
+
+### MessageReplies
+
+### MessageRepliesAvatars
+
+### MessageSimple
+
+### MessageStatus
+
+### MessageSystem
+
+### MessageText
+
+### MoreOptionsButton
+
+### NetworkDownIndicator
+
+### OverlayReactionList
+
+### ReactionList
+
+### Reply
+
+### ScrollToBottomButton
+
+### SendButton
+
+### ShowThreadMessageInChannelButton
+
+### StickyHeader
+
+### TypingIndicator
+
+### TypingIndicatorContainer
+
+## Input Props
+
+### UploadProgressIndicator
+
+### UrlPreview
+
+### additionalKeyboardAvoidingViewProps
+
+### additionalTextInputProps
+
+### animatedLongPress
+
+### additionalTouchableProps
+
+### allowThreadMessagesInChannel
+
+### autoCompleteTriggerSettings
+
+### blockUser
+
+### closeSuggestions
+
+### compressImageQuality
+
+### copyMessage
+
+### deleteMessage
+
+### disableIfFrozenChannel
+
+### disableKeyboardCompatibleView
+
+### disableTypingIndicator
+
+### dismissKeyboardOnMessageTouch
+
+### doDocUploadRequest
+
+### doImageUploadRequest
+
+### doMarkReadRequest
+
+### doSendMessageRequest
+
+### doUpdateMessageRequest
+
+### editMessage
+
+### enforceUniqueReaction
+
+### flagMessage
+
+### forceAlignMessages
+
+If true, all the messages will be aligned to the left side of screen, similar to Slack.
+By default, received messages get aligned on left side of screen and sent messages go to right side of screen.
+
+| Type               | Default      |
+| ------------------ | ------------ |
+| boolean            | false        |
+
+
+### formatDate
+
+### giphyEnabled
+
+### globalUnreadCountLimit
+
+### handleBlock
+
+### handleCopy
+
+### handleDelete
+
+### handleEdit
+
+### handleFlag
+
+### handleMute
+
+### handleReaction
+
+### handleReply
+
+### handleRetry
+
+### handleThreadReply
+
+### hasCommands
+
+### hasFilePicker
+
+### hasImagePicker
+
+### hideDateSeparators
+
+### initialScrollToFirstUnreadMessage
+
+### initialValue
+
+### keyboardBehavior
+
+### keyboardVerticalOffset
+
+### loadingMore
+
+### loadingMoreRecent
+
+### markdownRules
+
+Object specifying rules defined within simple-markdown
+
+https://github.com/Khan/simple-markdown#adding-a-simple-extension
+
+### messageId
+
+### maxNumberOfFiles
+
+### maxTimeBetweenGroupedMessages
+
+Maximum time in milliseconds that should occur between messages to still consider them grouped together
+
+### messageActions
+
+Use this prop to override message actions (which pop-up in message overlay). You can either completely override the default messageActions object.
+
+```jsx
+<Channel
+  messageActions={[
+    {
+      action: () => { someAction() };
+      title: "Pin Message";
+      icon: PinIcon;
+      titleStyle: {};
+    },
+    {
+      action: () => { someAction() };
+      title: "Delete Message";
+      icon: PinIcon;
+      titleStyle: {};
+    }
+  ]}
+>
+  <MessageList />
+  <MessageInput />
+</Channel>
+```
+
+Or you can selectly keep certain action and remove some:
+
+e.g. Lets say you only want to keep threadReply and copyMessage actions
+
+```jsx
+<Channel
+  channel={channel}
+  messageActions={({
+    blockUser, // MessageAction | null;
+    canModifyMessage, // boolean;
+    copyMessage, // MessageAction | null;
+    deleteMessage, // MessageAction | null;
+    editMessage, // MessageAction | null;
+    error, // boolean;
+    flagMessage, // MessageAction | null;
+    isMyMessage, // boolean;
+    isThreadMessage, // boolean;
+    message, // MessageType<At, Ch, Co, Ev, Me, Re, Us>;
+    messageReactions, // boolean;
+    muteUser, // MessageAction | null;
+    reply, // MessageAction | null;
+    retry, // MessageAction | null;
+    threadReply, // MessageAction | null;
+    repliesEnabled?, // boolean;
+  }) => ([
+    threadReply, copyMessage
+  ])}
+>
+  <MessageList />
+  <MessageInput />
+</Channel>
+```
+
+### messageContentOrder
+
+### messages
+
+### muteUser
+
+### myMessageTheme
+
+### numberOfLines
+
+### onChangeText
+
+### onDoubleTapMessage
+
+### onLongPressMessage
+
+### onPressMessage
+
+### onPressInMessage
+
+### openSuggestions
+
+### reply
+
+### retry
+
+### selectReaction
+
+### sendImageAsync
+
+### setInputRef
+
+### supportedReactions
+
+### t
+
+### thread
+
+### threadReply
+
+### updateSuggestions
