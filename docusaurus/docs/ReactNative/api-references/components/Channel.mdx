@@ -3,62 +3,127 @@ id: channel
 sidebar_position: 4
 title: Channel
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-The wrapper component for a chat channel. Channel needs to be placed inside a Chat component to receive the StreamChat client instance. MessageList, Thread, and MessageInput must be children of the Channel component to receive the ChannelContext.
+`Channel` is a wrapper component around [MessageList](#), [MessageInput](#) and [Thread](#) components. Channel provides multiple contexts to the enclosed components and allows for modification of many of the enclosed components via props that are then kept in context.
+Channel is provided by `stream-chat-react-native` and can be imported from the library as following
 
-## Example
+```js
+import { Channel } from 'stream-chat-react-native';
+```
+
+<!-- TODO: Change to new docs -->
+This component takes StreamChat channel as prop. You can either [create a channel](https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript) before rendering Channel component. Or if you are navigating from [`ChannelList`](#) component, channel is available as parameter on [`onSelect`](#) prop function.
+
+## Usage
 
 ```jsx
-import { StreamChat, Channel } from 'stream-chat';
-import { Chat, Channel} from 'stream-chat-react-native';
-
-const client = StreamChat.getInstance('api_key');
-await client.connectUser('user_id', 'user_token');
-const channel = client.channel('messaging', 'channel_id');
-await channel.watch();
-
-<Chat client={client}>
-  <Channel channel={channel}>
-    <MessageList />
-    <MessageInput />
-  </Channel>
-</Chat>
+<OverlayProvider>
+  <Chat client={client}>
+    <Channel channel={channel}>
+      <MessageList />
+      <MessageInput />
+    </Channel>
+  </Chat>
+</OverlayProvider>
 ```
+
+:::note
+The Channel is a higher order component, and itself doesn't provide any UI. It relies of MessageList, Thread and MessageInput to provide necessary UI.
+:::
+
+## UI Customizations
+
+Channel component makes it possible to customize any of the underlying child sub-components. For every child UI component of Channel, you can provide your own custom implementation. You can reference the following visuals, to check which prop to use for customizing.
+
+Please refer to following visual guide:
+
+<Tabs
+  defaultValue='messages'
+  values={[
+    { label: 'Messages', value: 'messages' },
+    { label: 'Attachments', value: 'attachments' },
+    { label: 'Indicators', value: 'indicators' },
+    { label: 'Input', value: 'input' },
+  ]}
+>
+<TabItem value='messages'>
+
+![](../../assets/api-references/components/channel/visual_guide_1.png)
+
+</TabItem>
+<TabItem value='attachments'>
+
+![](../../assets/api-references/components/channel/visual_guide_2.png)
+
+</TabItem>
+<TabItem value='indicators'>
+
+![](../../assets/api-references/components/channel/visual_guide_3.png)
+
+</TabItem>
+<TabItem value='input'>
+
+![](../../assets/api-references/components/channel/visual_guide_4.png)
+
+</TabItem>
+</Tabs>
 
 ## Props
 
 ### <div class="label required basic">Required</div> channel
 
-
 <!-- TODO: Change to new docs -->
-Instance of [Channel](#) from stream-chat package.
+Instance of Channel from stream-chat package.
 
-Please check the docs around how to create or query channel
+Please check the [reference docs](https://getstream.io/chat/docs/javascript/creating_channels/?language=javascript) around how to create or query channel
 
 
-| Type               |
-| ------------------ |
-| [Channel](#)       |
+| Type |
+|- -|
+| [Channel](#) |
 
-## List Props
+### <div class="label required basic">Required</div> keyboardVerticalOffset
+
+Distance between top of the screen and top of Channel component. Generally this value needs to be - `headerHeight + topInset`.
+
+| Type |
+| - |
+| number |
 
 ### AttachButton
 
-Custom UI component for attach button.
+Custom UI component for attach button next to input box.
 
 <!-- TODO: Change to new docs -->
-| Type               | Default      |
+| Type | Default |
 | ------------------ | ------------ |
 | Component, element | [AttachButton](#) |
 
+<!-- ### Attachment
 
-### Attachment
+Custom UI component for rendering attachments in MessageList.
+
+Available props:
+
+- `attachment` {object}
+
+| Type | Default |
+| ------------------ | ------------ |
+| Component, element | [Attachment](#) | -->
 
 ### AttachmentActions
 
-### FileAttachmentIcon
+UI component to render additional actions on attachment. e.g., send, shuffle, cancel in case of giphy
+
+| Type | Default |
+|- -|- -|
+| Component, element | [AttachmentActions](https://github.com/GetStream/stream-chat-react-native/blob/master/src/components/Attachment/AttachmentActions.tsx) |
 
 ### Card
+
+UI component to display generic media type e.g. giphy, url preview etc
 
 ### CardCover
 
@@ -71,6 +136,15 @@ Custom UI component for attach button.
 ### DateHeader
 
 ### EmptyStateIndicator
+
+
+### FileAttachmentIcon
+
+UI component for attachment icon for type 'file' attachment.
+
+| Type | Default |
+|- -|- -|
+| Component, element | [FileIcon](https://github.com/GetStream/stream-chat-react-native/blob/master/src/components/Attachment/FileIcon.tsx) |
 
 ### FileAttachment
 
@@ -145,8 +219,6 @@ Custom UI component for attach button.
 ### TypingIndicator
 
 ### TypingIndicatorContainer
-
-## Input Props
 
 ### UploadProgressIndicator
 
@@ -247,8 +319,6 @@ By default, received messages get aligned on left side of screen and sent messag
 ### initialValue
 
 ### keyboardBehavior
-
-### keyboardVerticalOffset
 
 ### loadingMore
 
