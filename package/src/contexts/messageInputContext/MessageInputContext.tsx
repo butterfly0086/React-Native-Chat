@@ -973,7 +973,9 @@ export const MessageInputProvider = <
             }
           });
         } else {
-          response = await channel.sendImage(compressedUri, undefined, contentType);
+          if (contentType.startsWith('image/'))
+            response = await channel.sendImage(compressedUri, undefined, contentType);
+          else response = await channel.sendFile(compressedUri, file.name, contentType);
         }
       }
 

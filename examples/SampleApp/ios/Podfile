@@ -19,6 +19,7 @@ target 'SampleApp' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/AppDistribution'
+  pod 'react-native-video/VideoCaching', :path => '../node_modules/react-native-video/react-native-video.podspec'
 
   # Enables Flipper.
   #

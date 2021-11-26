@@ -40,6 +40,7 @@ import type {
   StackNavigatorParamList,
   UserSelectorParamList,
 } from './src/types';
+import { VideoDisplayScreen } from './src/screens/VideoDisplayScreen';
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -183,6 +184,11 @@ const HomeScreen = () => {
           gestureEnabled: Platform.OS === 'ios' && overlay === 'none',
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        component={VideoDisplayScreen}
+        name='VideoDisplayScreen'
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         component={NewDirectMessagingScreen}

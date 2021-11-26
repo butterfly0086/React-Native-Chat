@@ -1,5 +1,5 @@
 import type { Immutable } from 'seamless-immutable';
-import type { Channel, UserResponse } from 'stream-chat';
+import type { Attachment, Channel, UserResponse } from 'stream-chat';
 import type { ThreadContextValue } from 'stream-chat-react-native';
 import type { Theme } from '@react-navigation/native';
 
@@ -117,6 +117,9 @@ export type StackNavigatorParamList = {
       LocalReactionType,
       LocalUserType
     >['thread'];
+  };
+  VideoDisplayScreen: {
+    attachment: Attachment<LocalAttachmentType>;
   };
 };
 

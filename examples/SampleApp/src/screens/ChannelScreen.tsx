@@ -33,6 +33,7 @@ import type {
   StackNavigatorParamList,
 } from '../types';
 import { NetworkDownIndicator } from '../components/NetworkDownIndicator';
+import VideoCard from '../components/VideoCardComponent';
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
@@ -172,6 +173,14 @@ export const ChannelScreen: React.FC<ChannelScreenProps> = ({
         channel={channel}
         disableTypingIndicator
         enforceUniqueReaction
+        FileAttachment={({ attachment }) => {
+          const onPressVideo = () => {
+            navigation.navigate('VideoDisplayScreen', {
+              attachment,
+            });
+          };
+          return <VideoCard attachment={attachment} onPress={onPressVideo} />;
+        }}
         initialScrollToFirstUnreadMessage
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -300}
         messageId={messageId}
