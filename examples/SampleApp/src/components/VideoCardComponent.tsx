@@ -22,11 +22,19 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 14,
   },
   playButton: {
+    elevation: 40,
     marginBottom: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 'auto',
     position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: {
+      height: 12,
+      width: 0,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
   },
 });
 
